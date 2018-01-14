@@ -1,0 +1,27 @@
+{
+    "name": "DwPhp",
+    "description": "Framework para desevolvimento web",
+    "authors": [
+        {
+            "name": "Dezwork Digital",
+            "role": "Full Stack Developer"
+        }
+    ],
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Entity\\": "app/dev/entity/",
+            "App\\Models\\": "app/dev/models/",
+            "App\\ModalDefault\\": "app/dev/default/helpers/modals/"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\Entity\\": "app/prod/entity/",
+            "App\\Models\\": "app/prod/models/",
+            "App\\ModalDefault\\": "app/prod/default/helpers/modals/"
+        }
+    },
+    "require": {
+        "dezwork/dwphp-framework": "^1.1.0"
+    }
+}

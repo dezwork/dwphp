@@ -1,0 +1,38 @@
+############ 2 - Which applications are available? #########
+application_src:
+    default:   { path_app: default, path_public: /public/default}
+    #adm:   { path_app: adm, path_public: /public/adm}
+
+## 3 tratamento de erros do sistema
+display_errors: On
+log_errors: On
+error_log: /storage/log/error_php.log
+error_sql: /storage/log/error_sql.log
+error_reporting: E_ALL
+
+## 4 tratamento de sessions do sistema
+#session_cache_limiter: private
+session_save_path: /storage/cache/session/
+#session_cache_expire: 10080
+
+## 5 - configs sistema
+#locale: pt_BR
+#date_timezone: America/Sao_Paulo
+#upload_max_filesize 100MB
+#post_max_size: 100MB
+
+## 6 - cache
+#cache_navegation: false
+
+## 7 - E-mail padrão
+#mail_default:
+#  account_smtp_server: smtp.server.net
+#  account_smtp_port: 587
+#  account_mail: email@server.net
+#  account_password: myp4ssw0rd
+#  account_name: My Name
+#  mail_from: email@forreceive.com
+#  name_from: Name For Receive
+
+##LOG
+limit_data_load_page: 55
