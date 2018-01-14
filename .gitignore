@@ -1,0 +1,10 @@
+### MAC ###
+.DS_Store
+### FRAMEWORK ###
+*.log
+*.lock
+/vendor/
+storage/cache/
+storage/log/
+storage/composer/
+public/uploads/
