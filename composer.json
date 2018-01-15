@@ -3,8 +3,7 @@
     "description": "Framework para desevolvimento web",
     "authors": [
         {
-            "name": "Dezwork Digital",
-            "role": "Full Stack Developer"
+            "name": "Dezwork Digital"
         }
     ],
     "autoload-dev": {
@@ -22,6 +21,6 @@
         }
     },
     "require": {
-        "dezwork/dwphp-framework": "^1.1.0"
+        "dezwork/dwphp-framework": "^1.0"
     }
 }
