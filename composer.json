@@ -21,6 +21,6 @@
         }
     },
     "require": {
-        "dezwork/dwphp-framework": "^1.0"
+        "dezwork/dwphp-framework": "1.*"
     }
 }
