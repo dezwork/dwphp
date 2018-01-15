@@ -4,7 +4,7 @@
  * @Author: Cleberson Bieleski
  * @Date:   2017-12-23 04:54:45
  * @Last Modified by:   Cleberson Bieleski
- * @Last Modified time: 2018-01-11 18:42:45
+ * @Last Modified time: 2018-01-15 13:48:13
  */
 use DwPhp\Init;
 session_start();
@@ -16,15 +16,17 @@ define('PATH_ROOT', dirname(__FILE__));
 if(file_exists(PATH_ROOT.'/vendor/autoload.php')){
 	require_once PATH_ROOT.'/vendor/autoload.php';
 }else{
+	define('KEYHASH', '5fa073f7860d74d00d451c8cd05f7c77');
 	require_once("public/deploy.php");
+	exit;
 }
 
 
 if(!empty($_SERVER['HTTP_HOST'])){
 	try {
 		//inicializa sistema
-	    new Init();
+	    	new Init();
 	} catch (Exception $e) {
-	    echo $e->getMessage();
+	    	echo $e->getMessage();
 	}
 }
