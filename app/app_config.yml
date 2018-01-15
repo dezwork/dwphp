@@ -3,7 +3,7 @@
 ## configurações de controle da url
 default:
  development:
-  address_uri: 192.168.33.101/dwphp-2.0/
+  address_uri: 192.168.33.101/dwphp/
   use_https: Off
   use_www: Off
 
@@ -42,9 +42,9 @@ default:
  db_staging:
   drive: pdo_mysql
   host: mysql.dezwork.com.br
-  username: ******
-  password: ******
-  database: ******
+  username: your_username
+  password: your_password
+  database: your_database
   encoding: utf8
 
  db_production:

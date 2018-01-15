@@ -1,25 +1,15 @@
 <?php
 
-if(!defined(PATH_ROOT)){
-	define('PATH_ROOT', dirname(__FILE__));
-}
+
 
 class composerAutoExecute {
 		private $terminal;
-		private $directory;
 		private $hasComposerPhar;
 		private $characterForLine = 70;
 
 		public function __construct(){
 
-			if(file_exists('../vendor/autoload.php')){
-				$this->setDirectory("../");
-			}else if (file_exists('../../vendor/autoload.php')){
-				chdir(PATH_ROOT."/public");
-			}else{
-				$this->setDirectory("");
-			}
-			if(file_exists($this->getDirectory().'composer.phar')){
+			if(file_exists('composer.phar')){
 				$this->setHasComposerPhar(true);
 			}else{
 				$this->setHasComposerPhar(false);
@@ -72,12 +62,11 @@ class composerAutoExecute {
 				}
 			}
 
-			chdir(PATH_ROOT);
 			if($this->getHasComposerPhar()==false){
 				$message	=	"Copiando composer.phar para a raiz ";
 				$this->showMensage($message);
 
-				if(copy(PATH_ROOT."/storage/composer/composer.phar", $this->getDirectory().'composer.phar')){
+				if(copy(PATH_ROOT."/storage/composer/composer.phar", PATH_ROOT.'/composer.phar')){
 					$this->showMensage(str_pad("> OK", ($this->getCharacterForLine() - strlen(utf8_decode($message))), ".", STR_PAD_LEFT));
 				}else{
 					$this->showMensage(str_pad("> ERRO", ($this->getCharacterForLine() - strlen(utf8_decode($message))), ".", STR_PAD_LEFT));
@@ -226,21 +215,32 @@ class composerAutoExecute {
 		}
 		public function executar($code=''){
 			if($code!=''){
-				shell_exec($code);
+				exec($code);
 			}
 
 		}
-	}
+}
 
+
+
+if(!defined('PATH_ROOT')){
+	define('PATH_ROOT', str_replace("/public","",dirname(__FILE__)));
+}
+chdir(PATH_ROOT);
 
 if(isset($_GET)){
+	$c=0;
 	foreach ($_GET as $key => $resultado) {
-		$environment=$key;
-		break;
-	}
-	if(!empty($environment)){
-		define('ENVIRONMENT', $environment);
+		if(!empty($key) && $c==0){
+			define('KEYHASH',$key);
+		}else if(!empty($key) && $c==1){
+			define('ENVIRONMENT',$key);
+			break;
+		}
+		$c++;
 	}
 }
 
-new composerAutoExecute();
+if(defined('KEYHASH') && KEYHASH=='5fa073f7860d74d00d451c8cd05f7c77'){
+	new composerAutoExecute();
+}
