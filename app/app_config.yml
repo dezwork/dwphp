@@ -1,56 +1,45 @@
-#### DEFAULT ####
-# ambientes definidos em: development,testing,staging e production
-## configurações de controle da url
 default:
- development:
-  address_uri: 192.168.33.101/dwphp/
-  use_https: Off
-  use_www: Off
-
- testing:
-  address_uri: /
-  use_https: Off
-  use_www: Off
-
- staging:
-  address_uri: dwphp.dezwork.com.br/
-  use_https: Off
-  use_www: Off
-
- production:
-  address_uri: /
-  use_https: Off
-  use_www: Off
-
- # configurações do banco de dados
- db_development:
-  drive: pdo_mysql
-  host: localhost
-  username: root
-  password: 123456
-  database: dwphp
-  encoding: utf8
-
- db_testing:
-  drive:
-  host:
-  username:
-  password:
-  database:
-  encoding:
-
- db_staging:
-  drive: pdo_mysql
-  host: mysql.dezwork.com.br
-  username: your_username
-  password: your_password
-  database: your_database
-  encoding: utf8
-
- db_production:
-  drive:
-  host:
-  username:
-  password:
-  database:
-  encoding:
+     development:
+          address_uri: /
+          use_https: Off
+          use_www: Off
+     testing:
+          address_uri: /
+          use_https: Off
+          use_www: Off
+     staging:
+          address_uri: /
+          use_https: Off
+          use_www: Off
+     production:
+          address_uri: /
+          use_https: Off
+          use_www: Off
+     db_development:
+          drive: pdo_mysql
+          host: null
+          username: null
+          password: null
+          database: null
+          encoding: null
+     db_testing:
+          drive: pdo_mysql
+          host: null
+          username: null
+          password: null
+          database: null
+          encoding: null
+     db_staging:
+          drive: pdo_mysql
+          host: null
+          username: null
+          password: null
+          database: null
+          encoding: null
+     db_production:
+          drive: pdo_mysql
+          host: null
+          username: null
+          password: null
+          database: null
+          encoding: null
