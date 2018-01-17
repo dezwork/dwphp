@@ -84,11 +84,12 @@ class composerAutoExecute {
 
 				//executando composer install ou update
 				$message = (file_exists('vendor')? "Aguarde atualização de dependências Composer ": "Aguarde instalação de dependências Composer ");
+
 				$this->showMensage($message);
 				if(defined('ENVIRONMENT') && ENVIRONMENT!='development' && ENVIRONMENT!='testing'){
-					$this->executar("php composer.phar update --no-dev ".($this->getTerminal()==false?'2>&1':''));
+					$this->executar("php composer.phar ".(file_exists('vendor')? "install": "update")." --no-dev ".($this->getTerminal()==false?'2>&1':''));
 				}else{
-					$this->executar("php composer.phar update ".($this->getTerminal()==false?'2>&1':''));
+					$this->executar("php composer.phar ".(file_exists('vendor')? "install": "update")." ".($this->getTerminal()==false?'2>&1':''));
 				}
 
 			$this->showMensage(str_pad((file_exists('vendor')?"> OK":"> ERRO"), ($this->getCharacterForLine() - strlen(utf8_decode($message))), ".", STR_PAD_LEFT));
