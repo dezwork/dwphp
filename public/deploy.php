@@ -1,7 +1,11 @@
 <?php
 
-
-
+/**
+ * @Author: Cleberson Bieleski
+ * @Date:   2018-01-17 11:06:33
+ * @Last Modified by:   Cleberson Bieleski
+ * @Last Modified time: 2018-01-18 05:09:23
+ */
 class composerAutoExecute {
 		private $terminal;
 		private $hasComposerPhar;
@@ -19,7 +23,7 @@ class composerAutoExecute {
 
 		public function process(){
 
-			if(php_sapi_name() != "cli") {
+			if(php_sapi_name() != "cli" && strpos($_SERVER['HTTP_USER_AGENT'],  'curl')===false) {
 		       $this->setTerminal(false);
 		    }else{
 		    	header('Content-Type:text/plain');
@@ -44,7 +48,7 @@ class composerAutoExecute {
 					$this->directoryComposer();
 
 					//exibe mensagem de prepado
-					$message	=	"Preparando o download do composer.phar ";
+					$message	=	"Preparing to download composer.phar";
 					$this->showMensage($message);
 
 					//inicia o donwload
@@ -56,14 +60,14 @@ class composerAutoExecute {
 						$this->showMensage(str_pad("> ERRO", ($this->getCharacterForLine() - strlen(utf8_decode($message))), ".", STR_PAD_LEFT));
 					}
 				}else{
-					$message	=	"Conferindo arquivo composer.phar ";
+					$message	=	"Checking file composer.phar ";
 					$this->showMensage($message);
 					$this->showMensage(str_pad("> OK", ($this->getCharacterForLine() - strlen(utf8_decode($message))), ".", STR_PAD_LEFT));
 				}
 			}
 
 			if($this->getHasComposerPhar()==false){
-				$message	=	"Copiando composer.phar para a raiz ";
+				$message	=	"Copying composer.phar to the root";
 				$this->showMensage($message);
 
 				if(copy(PATH_ROOT."/storage/composer/composer.phar", PATH_ROOT.'/composer.phar')){
@@ -75,27 +79,26 @@ class composerAutoExecute {
 
 			//executando scritp
 				if(defined('ENVIRONMENT') && ENVIRONMENT!='development' && ENVIRONMENT!='testing'){
-					$message = "Composer definido como '--no-dev' para staging/production";
+					$message = "Composer defined as '--no-dev' for staging / production";
 				}else{
-					$message = "Composer definido como 'dev' para development/testing";
+					$message = "Composer defined as 'dev' for para development/testing";
 				}
 				$this->showMensage($message);
 				$this->showMensage(str_pad("> OK", ($this->getCharacterForLine() - strlen(utf8_decode($message))), ".", STR_PAD_LEFT));
 
 				//executando composer install ou update
-				$message = (file_exists('vendor')? "Aguarde atualização de dependências Composer ": "Aguarde instalação de dependências Composer ");
-
+				$message = (file_exists('vendor')? "Wait for composer dependencies update ": "Wait for installation of Composer dependencies ");
 				$this->showMensage($message);
 				if(defined('ENVIRONMENT') && ENVIRONMENT!='development' && ENVIRONMENT!='testing'){
-					$this->executar("php composer.phar ".(file_exists('vendor')? "install": "update")." --no-dev ".($this->getTerminal()==false?'2>&1':''));
+					$this->executar("php composer.phar update --no-dev ".($this->getTerminal()==false?'2>&1':''));
 				}else{
-					$this->executar("php composer.phar ".(file_exists('vendor')? "install": "update")." ".($this->getTerminal()==false?'2>&1':''));
+					$this->executar("php composer.phar update ".($this->getTerminal()==false?'2>&1':''));
 				}
 
 			$this->showMensage(str_pad((file_exists('vendor')?"> OK":"> ERRO"), ($this->getCharacterForLine() - strlen(utf8_decode($message))), ".", STR_PAD_LEFT));
 
 
-			$message	=	"Removendo arquivos temporários ";
+			$message	=	"Removing temporary files ";
 			$this->showMensage($message);
 
 			if(file_exists("cache")){ $this->executar(" rm -rf cache"); }
@@ -119,7 +122,7 @@ class composerAutoExecute {
 				$message	=	"Concluído - OK";
 				$this->showMensage($message,2);
 			}else{
-				$message	=	"<br/><br/>Aguardando redirecionamento... ";
+				$message	=	"<br/><br/>Waiting for redirection ...";
 				$this->showMensage($message,2);
 
 				$this->showMensage("<script>location.href = './';</script>");
@@ -130,10 +133,11 @@ class composerAutoExecute {
 		public function downloadComposer(){
 			chdir(PATH_ROOT.'/storage/composer/');
 			$this->executar('php -r "readfile(\'https://getcomposer.org/installer\');" | php');
+			chdir(PATH_ROOT);
 		}
 		public function directoryComposer(){
 			if(!file_exists(PATH_ROOT."/storage/composer/")){
-				$message	=	"Criando diretório para baixar composer.phar ";
+				$message	=	"Creating directory to download composer.phar ";
 				$this->showMensage($message);
 				// Criando pasta
 				mkdir(PATH_ROOT."/storage/composer/", 0777, true);
@@ -146,7 +150,7 @@ class composerAutoExecute {
 
 
 				// Comçando mensagem para usuário
-				$message	=	"Definindo permissão de diretórios ";
+				$message	=	"Defining directory permissions ";
 				$this->showMensage($message);
 				// Definindo pemissão
 				chmod(PATH_ROOT."/storage/composer/", 0777);
@@ -207,7 +211,9 @@ class composerAutoExecute {
 			echo $m;
 
 			if(strpos($m, "ERRO")!==false){
-				echo "<style>img{display:none}</style>"; exit();
+				if($this->getTerminal()==false){
+					echo "<style>img{display:none}</style>"; exit();
+				}
 			}
 
 			if($this->getTerminal()==false){ob_flush();}
@@ -241,6 +247,7 @@ if(isset($_GET)){
 		$c++;
 	}
 }
+
 
 if(defined('KEYHASH') && KEYHASH=='5fa073f7860d74d00d451c8cd05f7c77'){
 	new composerAutoExecute();
